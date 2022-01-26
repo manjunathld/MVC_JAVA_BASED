@@ -2,10 +2,11 @@ package com.example.mvc_java_based.controller;
 
 import android.util.Log;
 
-import com.example.mvc_java_based.MainActivity;
+import com.example.mvc_java_based.view.MainActivity;
 import com.example.mvc_java_based.model.CountriesService;
 import com.example.mvc_java_based.model.CountryModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -27,16 +28,22 @@ public class CountriesController {
         countriesService.getCountryModel()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<List<CountryModel>>() {
+                .subscribe(new DisposableSingleObserver<List<CountryModel>>() {
                     @Override
                     public void onSuccess(@NonNull List<CountryModel> countryModels) {
-                        Log.d("Req onSuccess", ""+countryModels);
+                        for (int index = 0; index<countryModels.size(); index++) {
+                            List<CountryModel> countryModelList = new ArrayList<CountryModel>(countryModels);
+                            //Log.d("req_onSuccess", "ID: "+countryModelList.get(index).countryID);
+                            Log.d("req_onSuccess", ""+countryModels);
+                            mainActivity.setDataCountryAdapter(countryModels);
+                        }
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        Log.d("Req onError", ""+e);
+                        Log.d("req_onError", ""+e);
                     }
                 });
+
     }
 }

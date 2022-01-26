@@ -1,8 +1,11 @@
 package com.example.mvc_java_based.model;
 
+import com.example.mvc_java_based.constants.Constants;
+
 import java.util.List;
 
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
+import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -10,7 +13,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CountriesService {
-    private final String BASE_URL = "https://restcountries.com/v3.1/";
     private final CountriesAPI countriesAPI;
 
     //Constructor
@@ -23,7 +25,7 @@ public class CountriesService {
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .client(okHttpClient)
